@@ -2,16 +2,34 @@
 #make the changes accordingly for picam
 #ps you just have to uncomment a few lines
 
-
 import cv2
 import time
-
+from tflite_support.task import core
+from tflite_support.task import processor
+from tflite_support.task import vision
+from twilio.rest import Client
+import utils
 #from picamera2 import Picamera2
 
 from tflite_support.task import core
 from tflite_support.task import processor
 from tflite_support.task import vision
 import utils
+
+account_sid = '<Twilio Account SID>'  # Replace with your Twilio Account SID
+auth_token = '<Twilio Auth Token>'  # Replace with your Twilio Auth Token
+client = Client(account_sid, auth_token)
+
+# Function to send WhatsApp message
+def send_whatsapp_message(to, message):
+    from_whatsapp = 'whatsapp:+14155238886'  # Twilio Sandbox number
+    client.messages.create(
+        body=message,
+        from_=from_whatsapp,
+        to=to
+    )
+    print(f"WhatsApp message sent to {to}: {message}")
+
 
 model = 'efficientdet_lite0.tflite'
 num_threads = 4
@@ -43,6 +61,7 @@ base_options = core.BaseOptions(file_name=model,use_coral=False,num_threads= num
 detection_options = processor.DetectionOptions(max_results=5,score_threshold=.3)
 options = vision.ObjectDetectorOptions(base_options=base_options,detection_options=detection_options)
 detector = vision.ObjectDetector.create_from_options(options)
+book_detected_flag = False  # To avoid duplicate notifications
 tstart = time.time()
 while True:
     ret, im = cam.read()
@@ -53,6 +72,9 @@ while True:
     #you could directly use the below command to get the default 
     #image = utils.visualize(im,myDetects)
     # for customization use the below code
+    
+    book_found = False
+    
     for myDetect in myDetects.detections:
         UpperLeft = (myDetect.bounding_box.origin_x,myDetect.bounding_box.origin_y)
         LowerRight=(myDetect.bounding_box.origin_x+myDetect.bounding_box.width,myDetect.bounding_box.origin_y+myDetect.bounding_box.height)
@@ -61,6 +83,15 @@ while True:
         objName = myDetect.categories[0].category_name
         cv2.putText(im,objName,UpperLeft,font,labelHeight,labelColor,labelWeight)
     #im = picam2.capture_arry()
+    
+    if objName.lower() == "book":
+            book_found = True
+            
+    if book_found and not book_detected_flag:
+            send_whatsapp_message('whatsapp:+91XXXXXXXXXX', "A person has been detected!") 
+            book_detected_flag = True  # Prevent repeated notification
+    if not book_found:
+        book_detected_flag = False
     if not ret:
         break
     cv2.imshow('Webcam', im)
