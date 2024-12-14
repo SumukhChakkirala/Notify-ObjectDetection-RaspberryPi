@@ -1,5 +1,5 @@
-# ObjectDetection-RaspberryPi
-This project allows your Raspberry Pi to detect objects in real-time using TensorFlow Lite and a webcam. It identifies objects, draws bounding boxes around them, and labels them on the screen.
+# Notify-ObjectDetection-RaspberryPi
+This project allows your Raspberry Pi to detect objects in real-time using TensorFlow Lite and a webcam. It identifies objects, draws bounding boxes around them, and labels them on the screen. If we are looking for books in the current frame, the program automatically sends a message to your WhatsApp whenever a book has been detected
 
 we need python 3.7.3 for the code to work. my raspberry pi had a default python3.11.2 version, so i had to use a virtual environment 
 
@@ -15,6 +15,7 @@ we need python 3.7.3 for the code to work. my raspberry pi had a default python3
 - TensorFlow Lite
 - OpenCV
 - Python 3.7.3
+- twilio account
 
 ## Installation
 
