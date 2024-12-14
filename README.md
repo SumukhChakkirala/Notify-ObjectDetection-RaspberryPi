@@ -58,3 +58,4 @@ we need python 3.7.3 for the code to work. my raspberry pi had a default python3
 - The program uses a pre-trained TensorFlow Lite model (efficientdet_lite0.tflite) to detect objects in the webcam feed.
 - Detected objects are highlighted with bounding boxes and labeled with their names.
 - The program calculates and displays the frames per second (FPS) to monitor the performance.
+- We use the Twilio API to send a notification on WhatApp if and when the object is detected( in this case, a book)
