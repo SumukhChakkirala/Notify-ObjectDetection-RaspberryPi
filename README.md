@@ -8,6 +8,7 @@ we need python 3.7.3 for the code to work. my raspberry pi had a default python3
 - Real-Time Object Detection: Detects objects in the webcam feed using the TensorFlow Lite model.
 - Bounding Boxes and Labels: Highlights detected objects with bounding boxes and labels.
 - FPS Display: Shows the frames per second (FPS) for performance monitoring.
+- Notification: Automatically sends a message to your WhatsApp whenever a book has been detected
 
 ## Requirements
 
@@ -15,7 +16,7 @@ we need python 3.7.3 for the code to work. my raspberry pi had a default python3
 - TensorFlow Lite
 - OpenCV
 - Python 3.7.3
-- twilio account
+- Twilio account
 
 ## Installation
 
